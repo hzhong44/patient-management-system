@@ -2,19 +2,24 @@
 Patient Management Dashboard
 
 ## Requirements
+### Views
 - Form for adding patients
+- Patient dashboard and search
+- Individual patient card (?)
 
 - Viewing data
 - Filtering data
 - Search data (equality)
-
-- Database
 
 Bonus:
 - A nice to have would be authentication using email & password and/or OAuth
 - Login page
 - Account creation
 - 
+
+### Database
+Searching with SQL 
+vs. searching in memory with Python
 
 ## Decisions
 ### Stack
@@ -27,6 +32,7 @@ SQL vs NoSQL
 Configurable form - NoSQL OR SQL with JSON 'Other' column
 
 #### Schema
+Required fields
 Patients table:
 - First Name
 - Middle Name
@@ -35,6 +41,7 @@ Patients table:
 - Status (Inquiry, Onboarding, Active, Churned) (Enum)
 - Address (there may be multiple for a given patient)
 - Other: Additional text/number fields that can be arbitrarily created by the provider (think: a configurable form)
+- Contact?
 
 Users table:
 - Email
