@@ -1,6 +1,10 @@
 import os
 
+from dotenv import load_dotenv
+
 import models.database
+from models.filter import Filter
+from models.patient import PatientDAO
 
 
 class Test:
@@ -8,9 +12,6 @@ class Test:
         self.db = models.database.Database(db, "test")
         self.db.create_connection()
         self.conn = self.db.get_connection()
-
-    def create_test_tables(self) -> None:
-        self.db.create_tables()
 
     def load_data(self) -> None:
         # load users
@@ -22,7 +23,7 @@ class Test:
         self.db.load_data(patients_file, "patients")
 
     def setup(self) -> None:
-        self.create_test_tables()
+        self.db.create_tables()
         self.load_data()
 
     def teardown(self) -> None:
@@ -30,6 +31,16 @@ class Test:
 
 
 if __name__ == "__main__":
-    db_test = Test(models.database.db_file)
+    load_dotenv()
+    db_test = Test(os.getenv("db_file"))
+    db_test.teardown()
     db_test.setup()
-    # db_test_
+
+    # test
+    patient = PatientDAO()
+    search = Filter("patients_test")
+    search.add_criteria("first_name", "Jeffrey")
+    search.add_criteria("first_name", "Mary")
+    print(patient.search(search))
+
+    # db_test.teardown()
