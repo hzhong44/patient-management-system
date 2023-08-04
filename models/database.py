@@ -3,7 +3,7 @@ import os
 import sqlite3
 from sqlite3 import Error
 
-db_file = "/../sqlite.db"
+from dotenv import load_dotenv
 
 
 class Database:
@@ -16,8 +16,7 @@ class Database:
         if self.conn is not None:
             insert_users_sql = f'''
             INSERT INTO users_{self.env} (email, password) 
-            VALUES (?, ?);
-            '''
+            VALUES (?, ?);'''
             c = self.conn.cursor()
             c.executemany(insert_users_sql, users)
             self.conn.commit()
@@ -28,8 +27,7 @@ class Database:
         if self.conn is not None:
             insert_patients_sql = f'''
             INSERT INTO patients_{self.env} (first_name, middle_name, last_name, dob, status, address, other) 
-            VALUES (?, ?, ?, ?, ?, ?, ?);
-            '''
+            VALUES (?, ?, ?, ?, ?, ?, ?);'''
             c = self.conn.cursor()
             c.executemany(insert_patients_sql, patients)
             self.conn.commit()
@@ -57,6 +55,7 @@ class Database:
     def cleanup_rows(self):
         c = self.conn.cursor()
         c.execute(f"DELETE FROM patients_{self.env};", f"DELETE FROM users_{self.env};")
+        self.conn.commit()
 
     def drop_tables(self) -> None:
         if self.conn is not None:
@@ -76,13 +75,11 @@ class Database:
                                                dob text NOT NULL,
                                                status text NOT NULL,
                                                address text,
-                                               other text
-                                           );'''
+                                               other text);'''
 
         create_users_table = f''' CREATE TABLE IF NOT EXISTS users_{self.env} (
                                                    email text PRIMARY KEY,
-                                                   password text NOT NULL
-                                               ); '''
+                                                   password text NOT NULL); '''
 
         if self.conn is not None:
             self.create_table(create_users_table)
@@ -90,8 +87,10 @@ class Database:
         else:
             print(f"Error: could not connect to database at {self.db}")
 
-    def execute_query(self) -> str:
-        pass
+    def select_query(self, query: str) -> list[list[str]]:
+        c = self.conn.cursor()
+        c.execute(query)
+        return c.fetchall()
 
     def filter_query(self, table: str, column: str, value: str) -> list:
         c = self.conn.cursor()
@@ -123,7 +122,8 @@ class Database:
 
 
 if __name__ == '__main__':
-    db = Database(db_file, "test")
+    load_dotenv()
+    db = Database(os.getenv("db_file"), "test")
     db.create_connection()
     db.create_tables()
     # drop_tables(create_connection(db_file))
