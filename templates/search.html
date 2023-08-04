@@ -1,0 +1,43 @@
+{% extends "/bootstrap.html" %}
+
+{% block title %}Search Patients{% endblock %}
+
+{% block content %}
+    <div class="container d-flex h-75">
+        <div style="width:100%">
+            <h3>Search Patient</h3>
+            <form action="/search" method="POST">
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" name="first_name" class="form-control" value="{{ request.form.first_name }}">
+                    <label for="middle_name">Middle Name</label>
+                    <input type="text" name="middle_name" class="form-control" value="{{ request.form.middle_name }}">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" value="{{ request.form.last_name }}">
+                    <label for="dob">Date of Birth (MM/DD/YYYY)</label>
+                    <input type="text" name="dob" class="form-control" value="{{ request.form.dob }}"
+                           pattern="^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d$">
+                    <label for="status">Patient Status</label>
+                    <select id="status" name="status" size="4" class="form-select form-control">
+                        <option value="Inquiry">Inquiry</option>
+                        <option value="Onboarding">Onboarding</option>
+                        <option value="Active">Active</option>
+                        <option value="Churned">Churned</option>
+                    </select>
+                    <label for="address">Address</label>
+                    <textarea name="address" rows="3" cols="30" class="form-control"></textarea>
+                    <label for="other">Other details</label>
+                    <textarea name="other" rows="5" cols="30" class="form-control"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <div class="row justify-content-center align-self-center" style="width:60%">
+                {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

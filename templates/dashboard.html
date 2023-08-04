@@ -1,0 +1,34 @@
+{% extends "/bootstrap.html" %}
+
+{% block title %}Dashboard - Home{% endblock %}
+
+{% block content %}
+    <div class="container d-flex h-75">
+    </div>
+    <table id="data" class="table table-striped">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+            <th>Status</th>
+            <th>Address</th>
+            <th>Other</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for patient in patients %}
+            <tr>
+                <td>{{ patient[1] }}</td>
+                <td>{{ patient[2] }}</td>
+                <td>{{ patient[3] }}</td>
+                <td>{{ patient[4] }}</td>
+                <td>{{ patient[5] }}</td>
+                <td>{{ patient[6] }}</td>
+                <td>{{ patient[7] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
