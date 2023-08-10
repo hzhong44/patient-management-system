@@ -39,7 +39,7 @@ def login():
         else:
             error = "Invalid email or password"
             return render_template("login.html", error=error)
-    if session.get("logged_in", None) == True:
+    if session.get("logged_in", None) is True:
         return redirect(url_for("dashboard"))
     return render_template("login.html")
 
@@ -55,7 +55,6 @@ def logout():
 @logged_in
 def dashboard(patients=None):
     # todo: pagination both for display and for fetching from db
-    print(patients)
     if patients is None:
         patientDAO = PatientDAO()
         patients = patientDAO.get_patients_list()
@@ -111,7 +110,7 @@ def search():
         if address != "":
             filter.add_criteria("address", address)
 
-        if len(filter.params) == 0:
+        if len(filter.criteria) == 0:
             error = "Please enter at least one search parameter"
             return render_template("search.html", error=error)
 

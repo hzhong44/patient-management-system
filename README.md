@@ -7,72 +7,83 @@ Patient Management Dashboard
 ### Views
 
 - Form for adding patients
-- Patient dashboard and search
-- Individual patient card (?)
-
-- Viewing data
-- Filtering data
-- Search data (equality)
+- Patient dashboard
+- Search patients
 
 Bonus:
-
-- A nice to have would be authentication using email & password and/or OAuth
 - Login page
-- Account creation
--
 
 ### Database
+Store patients and users
 
-Searching with SQL
-vs. searching in memory with Python
+| **Patient**                 |
+|-----------------------------|
+| ID (generated, primary key) |
+| First Name (required)       |
+| Middle Name                 |
+| Last Name (required)        |
+| Date of Birth (required)    |
+| Status (required)           |
+| Address                     |
+| Other                       | 
 
-Searching: create a filter -> convert to sql query
+Contact?
 
-Search bar? -> text search through everything
-vs Filter each option
+| **User**            |
+|---------------------|
+| Email (primary key) |
+| Password (encrypted |
 
 ## Decisions
 
 ### Stack
+Google Forms - Google Sheets
+
 
 Python3 - Flask application
+
 Database - SQLite
+
+### Frontend
+HTML - Bootstrap
+
+### Backend
+Flask - Python
+
+Searching with SQL vs. searching in memory with Python
+
+Text search through every field vs Search each option individually
 
 ### Database
 
-SQL vs NoSQL
+SQL vs NoSQL vs Elasticsearch
 
-Configurable form - NoSQL OR SQL with JSON 'Other' column
+| Database      | Pros                                                                                      | Cons                                                                   |
+|---------------|-------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| SQL           | - SQL filter and queries<br/>- Separate tables                                            | - Not great for text search<br/> - Requires structured schema and data |
+| NoSQL         | - Good for unstructured data (**Others** field)<br/> - Scalability for access and queries | - No data schema                                                       |
+| Elasticsearch | - Text search                                                                             | - Expensive                                                            |
 
-Elasticsearch
+### Alternatives
 
-| Database      | Pros                                                                                  | Cons                                                                   |
-|---------------|---------------------------------------------------------------------------------------|------------------------------------------------------------------------|
-| SQL           | - SQL filter and queries<br/>- Separate tables                                        | - Not great for text search<br/> - Requires structured schema and data |
-| NoSQL         | - Good for unstructured data (Others field)<br/> - Scalability for access and queries | - No data schema                                                       |
-| Elasticsearch | - Text search                                                                         | - Expensive                                                            | 
+Frontend - React
+Backend - Typescript - Node.js
+Database
 
-#### Schema
+### Improvements
+1. Unit testing
+2. Buggy HTML
+3. Database encryption for password
+4. Search - full text search through all fields and return any match?
+   1. Others - JSON + add fields individually (text?)
+   2. Exact match?
+   3. Partial match?
+5. Search box, filtering
+6. Templates and design
+7. Account creation and verification and change password
+8. Changing patient details/deleting patients
+9. OAuth
 
-Patients table:
-
-- First Name (Required)
-- Middle Name
-- Last Name (Required)
-- Date of Birth (Required)
-- Status (Inquiry, Onboarding, Active, Churned) (Enum)
-- Address (there may be multiple for a given patient)
-- Other: Additional text/number fields that can be arbitrarily created by the provider (think: a configurable form)
-- Contact?
-
-Users table:
-
-- Email (Primary Key)
-- Password
-
-### Considerations
-
-User interface - consider using React instead
 Scalability of database:
 
 - Will a single table be sufficient in the future?
